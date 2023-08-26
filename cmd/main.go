@@ -15,10 +15,11 @@ type FileStructure struct {
 }
 
 type Request struct {
-	Name       string                 `yaml:"name"`
-	Url        string                 `yaml:"url"`
-	Type       string                 `yaml:"type"`
-	Parameters map[string]interface{} `yaml:"parameters"`
+	Name       string            `yaml:"name"`
+	Url        string            `yaml:"url"`
+	Type       string            `yaml:"type"`
+	Parameters map[string]string `yaml:"parameters"`
+	Headers    map[string]string `yaml:"headers"`
 }
 
 func main() {
@@ -46,10 +47,14 @@ func main() {
 		fmt.Printf("--- Name: %s\n", entry.Name)
 		fmt.Printf("--- Url: %s\n", entry.Url)
 		fmt.Printf("--- Type: %s\n", entry.Type)
-        fmt.Println("--- Parameters:")
-        for key, value := range entry.Parameters {
-            fmt.Printf("------ %s: %s\n", key, value)
-        }
+		fmt.Println("--- Parameters:")
+		for key, value := range entry.Parameters {
+			fmt.Printf("------ %s: %s\n", key, value)
+		}
+		fmt.Println("--- Headers:")
+		for key, value := range entry.Headers {
+			fmt.Printf("------ %s: %s\n", key, value)
+		}
 		fmt.Print("------------------------\n")
 	}
 

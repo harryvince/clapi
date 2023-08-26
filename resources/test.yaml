@@ -6,9 +6,16 @@ requests:
       key1: value
       key2: anotherValue
       key3: help
+    headers:
+      Content-Type: application/json
+      Agent: clapi/0.0.1
   - name: Another Request
     url: https://google.com
     type: POST
     parameters:
       entry: test
       value: boo
+    headers:
+      No-Referer: true
+      Content-Type: text/xml
+      Cache: Invalidate
