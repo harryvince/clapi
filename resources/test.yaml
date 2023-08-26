@@ -1,6 +1,6 @@
 requests:
   - name: Basic Request
-    url: https://hvince.uk
+    url: https://example.com
     type: GET
     parameters:
       key1: value
@@ -9,8 +9,15 @@ requests:
     headers:
       Content-Type: application/json
       Agent: clapi/0.0.1
+    body:
+      type: json
+      content: |
+        {
+          "first_name": "Harry",
+          "surname": "Vince"
+        }
   - name: Another Request
-    url: https://google.com
+    url: https://example.org
     type: POST
     parameters:
       entry: test
@@ -19,3 +26,19 @@ requests:
       No-Referer: true
       Content-Type: text/xml
       Cache: Invalidate
+    body:
+      type: xml
+      content: |
+        <Customers>
+            <Customer>
+                <Number>1</Number>
+                <FirstName>Fred</FirstName>
+                <LastName>Landis</LastName>
+                <Address>
+                    <Street>Oakstreet</Street>
+                    <City>Boston</City>
+                    <ZIP>23320</ZIP>
+                    <State>MA</State>
+                </Address>
+            </Customer>
+        </Customers>

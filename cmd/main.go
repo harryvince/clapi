@@ -20,6 +20,12 @@ type Request struct {
 	Type       string            `yaml:"type"`
 	Parameters map[string]string `yaml:"parameters"`
 	Headers    map[string]string `yaml:"headers"`
+	Body       Body              `yaml:"body"`
+}
+
+type Body struct {
+	Type    string `yaml:"type"`
+	Content string `yaml:"content"`
 }
 
 func main() {
@@ -55,6 +61,9 @@ func main() {
 		for key, value := range entry.Headers {
 			fmt.Printf("------ %s: %s\n", key, value)
 		}
+		fmt.Println("--- Body:")
+		fmt.Printf("---- Type: %s\n", entry.Body.Type)
+		fmt.Printf("---- Content: %s\n", entry.Body.Content)
 		fmt.Print("------------------------\n")
 	}
 
