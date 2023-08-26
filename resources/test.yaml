@@ -1,9 +1,14 @@
 requests:
   - name: Basic Request
-    params:
-      url: https://hvince.uk
-      type: GET
+    url: https://hvince.uk
+    type: GET
+    parameters:
+      key1: value
+      key2: anotherValue
+      key3: help
   - name: Another Request
-    params:
-      url: https://google.com
-      type: POST
+    url: https://google.com
+    type: POST
+    parameters:
+      entry: test
+      value: boo
