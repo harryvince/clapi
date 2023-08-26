@@ -1,0 +1,9 @@
+requests:
+  - name: Basic Request
+    params:
+      url: https://hvince.uk
+      type: GET
+  - name: Another Request
+    params:
+      url: https://google.com
+      type: POST
