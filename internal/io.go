@@ -3,6 +3,8 @@ package internal
 import (
 	"io"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 func ReadFile(filePath string) (string, error) {
@@ -18,4 +20,34 @@ func ReadFile(filePath string) (string, error) {
 	}
 
 	return string(content), nil
+}
+
+// Note: struct fields must be public in order for unmarshal to
+// correctly populate the data.
+type FileStructure struct {
+	Requests []Request `yaml:"requests"`
+}
+
+type Request struct {
+	Name       string            `yaml:"name"`
+	Url        string            `yaml:"url"`
+	Method     string            `yaml:"method"`
+	Parameters map[string]string `yaml:"parameters"`
+	Headers    map[string]string `yaml:"headers"`
+	Body       Body              `yaml:"body"`
+}
+
+type Body struct {
+	Type    string `yaml:"type"`
+	Content string `yaml:"content"`
+}
+
+func ParseContent(content string) (FileStructure, error) {
+	data := FileStructure{}
+	err := yaml.Unmarshal([]byte(content), &data)
+	if err != nil {
+		return data, err
+	}
+
+	return data, nil
 }

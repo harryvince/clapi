@@ -1,14 +1,14 @@
 requests:
-  - name: Basic Request
-    url: https://example.com
-    type: GET
+  - name: Post Request
+    url: http://localhost:5000/echo
+    method: POST
     parameters:
       key1: value
       key2: anotherValue
       key3: help
     headers:
       Content-Type: application/json
-      Agent: clapi/0.0.1
+      User-Agent: clapi/0.0.1
     body:
       type: json
       content: |
@@ -16,29 +16,13 @@ requests:
           "first_name": "Harry",
           "surname": "Vince"
         }
-  - name: Another Request
-    url: https://example.org
-    type: POST
+  - name: Get Request
+    url: http://localhost:5000/hello
+    method: GET
     parameters:
-      entry: test
-      value: boo
+      key1: value
+      key2: anotherValue
+      key3: help
     headers:
-      No-Referer: true
-      Content-Type: text/xml
-      Cache: Invalidate
-    body:
-      type: xml
-      content: |
-        <Customers>
-            <Customer>
-                <Number>1</Number>
-                <FirstName>Fred</FirstName>
-                <LastName>Landis</LastName>
-                <Address>
-                    <Street>Oakstreet</Street>
-                    <City>Boston</City>
-                    <ZIP>23320</ZIP>
-                    <State>MA</State>
-                </Address>
-            </Customer>
-        </Customers>
+      Content-Type: application/json
+      User-Agent: clapi/0.0.1

@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Log headers before processing each request
+@app.before_request
+def log_request_headers():
+    print("Request Headers:")
+    for header, value in request.headers.items():
+        print(f"{header}: {value}")
+    print()
+
+# Define a route that echoes the JSON data passed in the request body for POST requests
+@app.route('/echo', methods=['POST'])
+def echo():
+    try:
+        data = request.get_json()  # Get JSON data from request body
+        return jsonify(data)       # Return the received JSON data
+    except Exception as e:
+        return jsonify({'error': str(e)})
+
+# Define a route that returns a JSON response for GET requests
+@app.route('/hello', methods=['GET'])
+def hello():
+    response = {
+        'message': 'Hello, world!'
+    }
+    return jsonify(response)
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
