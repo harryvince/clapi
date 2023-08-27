@@ -23,6 +23,8 @@ func SendRequest(request Request) (*http.Response, error) {
 		apiRequest.Header.Set(key, value)
 	}
 
+    apiRequest.Header.Set("User-Agent", "clapi/" + GetVersion())
+
 	client := &http.Client{}
 	response, err := client.Do(apiRequest)
 

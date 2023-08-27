@@ -4,7 +4,6 @@ requests:
     method: POST
     headers:
       Content-Type: application/json
-      User-Agent: clapi/0.0.1
     body:
       type: json
       content: |
@@ -21,4 +20,3 @@ requests:
       key3: help
     headers:
       Content-Type: application/json
-      User-Agent: clapi/0.0.1
