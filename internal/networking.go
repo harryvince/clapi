@@ -9,6 +9,14 @@ import (
 func SendRequest(request Request) (*http.Response, error) {
 	data := []byte(request.Body.Content)
 
+	if len(request.Parameters) > 0 {
+        request.Url = request.Url + "?"
+		for key, value := range request.Parameters {
+            request.Url = request.Url + key + "=" + value + "&"
+		}
+        request.Url = request.Url[:len(request.Url)-1]
+	}
+
 	apiRequest, err := http.NewRequest(strings.ToUpper(request.Method), request.Url, bytes.NewBuffer(data))
 
 	for key, value := range request.Headers {

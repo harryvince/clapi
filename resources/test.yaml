@@ -2,10 +2,6 @@ requests:
   - name: Post Request
     url: http://localhost:5000/echo
     method: POST
-    parameters:
-      key1: value
-      key2: anotherValue
-      key3: help
     headers:
       Content-Type: application/json
       User-Agent: clapi/0.0.1

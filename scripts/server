@@ -5,10 +5,15 @@ app = Flask(__name__)
 
 # Log headers before processing each request
 @app.before_request
-def log_request_headers():
+def log_request_data():
     print("Request Headers:")
     for header, value in request.headers.items():
         print(f"{header}: {value}")
+    print()
+
+    print("Query Parameters:")
+    for param, value in request.args.items():
+        print(f"{param}: {value}")
     print()
 
 # Define a route that echoes the JSON data passed in the request body for POST requests
