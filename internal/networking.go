@@ -7,7 +7,7 @@ import (
 )
 
 func SendRequest(request Request) (*http.Response, error) {
-	data := []byte(request.Body.Content)
+	data := []byte(request.Body)
 
 	if len(request.Parameters) > 0 {
         request.Url = request.Url + "?"

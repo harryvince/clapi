@@ -4,13 +4,11 @@ requests:
     method: POST
     headers:
       Content-Type: application/json
-    body:
-      type: json
-      content: |
-        {
-          "first_name": "Harry",
-          "surname": "Vince"
-        }
+    body: |
+      {
+        "first_name": "Harry",
+        "surname": "Vince"
+      }
   - name: Get Request
     url: http://localhost:5000/hello
     method: GET

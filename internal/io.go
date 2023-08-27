@@ -34,12 +34,7 @@ type Request struct {
 	Method     string            `yaml:"method"`
 	Parameters map[string]string `yaml:"parameters"`
 	Headers    map[string]string `yaml:"headers"`
-	Body       Body              `yaml:"body"`
-}
-
-type Body struct {
-	Type    string `yaml:"type"`
-	Content string `yaml:"content"`
+	Body       string            `yaml:"body"`
 }
 
 func ParseContent(content string) (FileStructure, error) {
