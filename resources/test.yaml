@@ -1,0 +1,20 @@
+requests:
+  - name: Post Request
+    url: http://localhost:5000/echo
+    method: POST
+    headers:
+      Content-Type: application/json
+    body: |
+      {
+        "first_name": "Harry",
+        "surname": "Vince"
+      }
+  - name: Get Request
+    url: http://localhost:5000/hello
+    method: GET
+    parameters:
+      key1: value
+      key2: anotherValue
+      key3: help
+    headers:
+      Content-Type: application/json
