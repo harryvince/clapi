@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"fmt"
 	"io"
 	"os"
 
@@ -8,6 +9,7 @@ import (
 )
 
 func ReadFile(filePath string) (string, error) {
+	Log("Starting to read file...")
 	file, err := os.Open(filePath)
 	if err != nil {
 		return "", err
@@ -19,6 +21,7 @@ func ReadFile(filePath string) (string, error) {
 		return "", err
 	}
 
+	Log("Successfully read file.")
 	return string(content), nil
 }
 
@@ -38,11 +41,14 @@ type Request struct {
 }
 
 func ParseContent(content string) (FileStructure, error) {
+	Log("Starting to parse content...")
 	data := FileStructure{}
 	err := yaml.Unmarshal([]byte(content), &data)
 	if err != nil {
 		return data, err
 	}
 
+	Log("Content Parsed.")
+	Log(fmt.Sprintf("Content dump: \n%v", data))
 	return data, nil
 }

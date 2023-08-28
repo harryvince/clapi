@@ -2,58 +2,65 @@ package main
 
 import (
 	"fmt"
+	"os"
+	"strings"
+	"sync"
 
 	"github.com/harryvince/clapi/internal"
 )
 
 func main() {
-	// Read file from location
-	filePath := "resources/test.yaml"
+    if len(os.Args) < 2 {
+		fmt.Println("Usage: clapi <path-to-file>")
+		return
+	}
+
+	filePath := os.Args[1]
 	data, err := internal.ReadFile(filePath)
 	if err != nil {
-		fmt.Println("Error: ", err)
+		fmt.Println("Error getting file: ", err)
 		return
 	}
 
-	// Parse the content of the file
 	content, err := internal.ParseContent(data)
 	if err != nil {
-		fmt.Println("Error: ", err)
-		return
+		fmt.Println("Error when trying to parse content: ", err)
+		os.Exit(1)
 	}
-	fmt.Printf("dump:\n%v\n\n", content)
 
-	// test for my own use
-	fmt.Println("Yaml Fields:")
-	fmt.Print("------------------------\n")
-	for i, entry := range content.Requests {
-		// Data printing for request
-		fmt.Print("-------Start of Yaml Printing-------\n")
-		fmt.Printf("--- Request %d\n", i+1)
-		fmt.Printf("--- Name: %s\n", entry.Name)
-		fmt.Printf("--- Url: %s\n", entry.Url)
-		fmt.Printf("--- Method: %s\n", entry.Method)
-		fmt.Println("--- Parameters:")
-		for key, value := range entry.Parameters {
-			fmt.Printf("------ %s: %s\n", key, value)
-		}
-		fmt.Println("--- Headers:")
-		for key, value := range entry.Headers {
-			fmt.Printf("------ %s: %s\n", key, value)
-		}
-		fmt.Printf("--- Body: %s\n", entry.Body)
-		fmt.Print("-------End of Yaml Printing-------\n")
-		fmt.Print("-------Start of Response Printing-------\n")
-		request, err := internal.SendRequest(entry)
-		if err != nil {
-			fmt.Println("Error: ", err)
-			return
-		}
-		statusCode, body := internal.GetRequestData(request)
-		fmt.Printf("--- Status Code: %d\n", statusCode)
-		fmt.Printf("--- Body: %s\n", body)
-		fmt.Print("-------End of Response Printing-------\n")
-		fmt.Print("------------------------\n")
+	fmt.Println("--------------------------")
+
+	var wg sync.WaitGroup
+	for _, entry := range content.Requests {
+		wg.Add(1)
+
+		go func(entry internal.Request) {
+			defer wg.Done()
+
+			request, err := internal.SendRequest(entry)
+			if err != nil {
+				fmt.Println("Error when trying to send the request: ", err)
+				os.Exit(1)
+			}
+			response, err := internal.GetRequestData(request)
+			if err != nil {
+				fmt.Println("Error when getting request data: ", err)
+				os.Exit(1)
+			}
+
+			fmt.Printf("%s Response for => %s\n", strings.ToUpper(entry.Method), entry.Url)
+			fmt.Printf("Status Code: %v\n", response.StatusCode)
+			fmt.Printf("Body:\n%s\n", response.Body)
+			fmt.Println("Headers:")
+			for key, value := range response.Headers {
+				fmt.Printf("\t%s: %s\n", key, value)
+			}
+
+			fmt.Println("--------------------------")
+
+		}(entry)
 	}
+
+	wg.Wait()
 
 }
