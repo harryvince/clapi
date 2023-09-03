@@ -7,11 +7,12 @@ import (
 	"sync"
 
 	"github.com/harryvince/clapi/internal"
+	"golang.org/x/exp/slices"
 )
 
 func main() {
-    if len(os.Args) < 2 {
-		fmt.Println("Usage: clapi <path-to-file>")
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: clapi <path-to-file> <--headers?>")
 		return
 	}
 
@@ -48,12 +49,15 @@ func main() {
 				os.Exit(1)
 			}
 
+			fmt.Printf("Request: %s\n", entry.Name)
 			fmt.Printf("%s Response for => %s\n", strings.ToUpper(entry.Method), entry.Url)
 			fmt.Printf("Status Code: %v\n", response.StatusCode)
-			fmt.Printf("Body:\n%s\n", response.Body)
-			fmt.Println("Headers:")
-			for key, value := range response.Headers {
-				fmt.Printf("\t%s: %s\n", key, value)
+			fmt.Printf("Body:\n%s\n", strings.ReplaceAll(response.Body, "\n", ""))
+			if slices.Contains(os.Args, "--headers") {
+				fmt.Println("Headers:")
+				for key, value := range response.Headers {
+					fmt.Printf("%s: %s\n", key, value)
+				}
 			}
 
 			fmt.Println("--------------------------")
